@@ -30,16 +30,19 @@ router.post("/signup", async (req, res) => {
 
 // User Login Route
 router.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username });
-
-  if (!user || !await bcrypt.compare(password, user.password)) {
-    return res.status(400).json({ message: "Invalid credentials" });
-  }
-
-  const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "60m" });
-  res.json({ token });
-});
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+  
+    if (!user || !await bcrypt.compare(password, user.password)) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+  
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "60m" });
+  
+    // Include role in response
+    res.json({ token, role: user.role });
+  });
+  
 
 // Protected Dashboard Route
 router.get("/dashboard", authenticateJWT, (req, res) => {
