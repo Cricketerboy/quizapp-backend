@@ -7,7 +7,7 @@ const quizAttemptSchema = new mongoose.Schema({
   status: { type: String, enum: ["Not Started", "In-Progress", "Completed"], default: "Not Started" },
   responses: [
     {
-      questionId: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz.questions" },
+      questionId: { type: mongoose.Schema.Types.ObjectId, ref: "Question" }, // Change reference to "Question"
       selectedOption: String,
     },
   ],
