@@ -163,7 +163,8 @@ router.get("/my-quizzes", authenticateJWT, async (req, res) => {
         totalScore: quiz.totalScore,
         questions: quiz.questions.map(q => ({
             id: q._id,
-            text: q.text,
+            title: q.title,  // Include the question title
+            text: q.text,    // Question description if needed
             options: q.options
         }))
     });
