@@ -153,8 +153,8 @@ router.get("/my-quizzes", authenticateJWT, async (req, res) => {
 
   router.get("/:id/questions", authenticateJWT, async (req, res) => {
     const { id } = req.params;
-  
-    const quiz = await Quiz.findById(id).populate("questions");
+
+    const quiz = await Quiz.findById(id);
     if (!quiz) return res.status(404).json({ message: "Quiz not found" });
 
     res.json({ 
@@ -163,11 +163,12 @@ router.get("/my-quizzes", authenticateJWT, async (req, res) => {
         totalScore: quiz.totalScore,
         questions: quiz.questions.map(q => ({
             id: q._id,
-            title: q.title,  // Ensure the question title is included
+            questionText: q.questionText,  // Include question text
             options: q.options
         }))
     });
 });
+
 
 
   
